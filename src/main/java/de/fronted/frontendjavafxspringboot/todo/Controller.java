@@ -41,9 +41,6 @@ public class Controller implements Initializable {
     @Override
     public void initialize(URL url, ResourceBundle resourceBundle) {
         setOpens();
-
-
-
         // Set a cell factory to display the description field of each one
         todoListView.setCellFactory(param -> new ListCell<>() {
             @Override
@@ -69,23 +66,22 @@ public class Controller implements Initializable {
     };
 
     public List<Todo> setOpens(){
-        setBackgroundColor(todoLabel);
-        sortedTodos = todoService.getTodos().stream().filter( todo -> todo.getStatus().equals(TodoStatus.OPEN)).collect(Collectors.toList());
-        setTodosOnClick();
+        setSortedTodos(todoLabel,TodoStatus.OPEN);
         return sortedTodos;
     }
     public List<Todo> setDone(){
-        setBackgroundColor(doneLabel);
-        sortedTodos = todoService.getTodos().stream().filter( todo -> todo.getStatus().equals(TodoStatus.DONE)).collect(Collectors.toList());
-        setTodosOnClick();
+        setSortedTodos(doneLabel,TodoStatus.DONE);
         return sortedTodos;
     }  public List<Todo> setInProgress(){
-         setBackgroundColor(inProgressLabel);
-         sortedTodos = todoService.getTodos().stream().filter( todo -> todo.getStatus().equals(TodoStatus.IN_PROGRESS)).collect(Collectors.toList());
-         setTodosOnClick();
+         setSortedTodos(inProgressLabel,TodoStatus.IN_PROGRESS);
         return sortedTodos;
     }
 
+    public void setSortedTodos(Label statusLabel, TodoStatus status){
+        setBackgroundColor(statusLabel);
+        sortedTodos = todoService.getTodos().stream().filter( todo -> todo.getStatus().equals(status)).collect(Collectors.toList());
+        setTodosOnClick();
+    }
 
     private void setTodosOnClick(){
         todoListView.getItems().clear();
@@ -108,11 +104,9 @@ public class Controller implements Initializable {
         }
     }
 
-
   public void deleteTodoById(){
       this.todoService.deleteTodoById(id);
       todoListView.getItems().clear();
       setOpens();
-      System.out.println("deleterTodoById excited");
   }
 }
