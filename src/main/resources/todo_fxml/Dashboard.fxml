@@ -1,0 +1,32 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.scene.control.Label?>
+<?import javafx.scene.control.ListView?>
+<?import javafx.scene.layout.AnchorPane?>
+<?import javafx.scene.text.Font?>
+
+<AnchorPane prefHeight="400.0" prefWidth="600.0" style="-fx-background-color: wight;" xmlns="http://javafx.com/javafx/19" xmlns:fx="http://javafx.com/fxml/1" fx:controller="de.fronted.frontendjavafxspringboot.todo.Controller">
+   <children>
+      <ListView fx:id="todoListView" layoutX="-2.0" layoutY="120.0" prefHeight="219.0" prefWidth="616.0" />
+      <Label alignment="CENTER" layoutX="14.0" layoutY="14.0" prefHeight="55.0" prefWidth="602.0" text="My Todo app">
+         <font>
+            <Font size="35.0" />
+         </font>
+      </Label>
+      <Label fx:id="doneLabel" contentDisplay="CENTER" layoutX="394.0" layoutY="77.0" onMouseClicked="#setDone" prefHeight="33.0" prefWidth="51.0" text="Done">
+         <font>
+            <Font size="20.0" />
+         </font>
+      </Label>
+      <Label fx:id="inProgressLabel" contentDisplay="CENTER" layoutX="261.0" layoutY="80.0" onMouseClicked="#setInProgress" prefHeight="23.0" prefWidth="94.0" text="inProgress">
+         <font>
+            <Font size="20.0" />
+         </font>
+      </Label>
+      <Label fx:id="todoLabel" contentDisplay="CENTER" layoutX="179.0" layoutY="80.0" onMouseClicked="#setOpens" prefHeight="26.0" prefWidth="51.0" text="Todo">
+         <font>
+            <Font size="20.0" />
+         </font>
+      </Label>
+   </children>
+</AnchorPane>
