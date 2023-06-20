@@ -1,12 +1,8 @@
 package de.fronted.frontendjavafxspringboot.todo;
 
-import lombok.AllArgsConstructor;
-import lombok.NoArgsConstructor;
-import lombok.RequiredArgsConstructor;
-import org.springframework.beans.factory.annotation.Value;
+import org.springframework.http.HttpMethod;
 import org.springframework.stereotype.Service;
 import org.springframework.web.reactive.function.client.WebClient;
-
 import java.util.List;
 import java.util.Objects;
 
@@ -20,6 +16,17 @@ public class TodoService {
                 .retrieve()
                 .toEntityList(Todo.class)
                 .block()).getBody();
+    }
+    public void deleteTodoById(String id) {
+        webClient.delete()
+                .uri("/"+id)
+                .retrieve()
+                .bodyToMono(Void.class)
+                .subscribe(response -> {
+                    System.out.println("Delete request successful");
+                }, error -> {
+                    System.err.println("Error occurred during delete request: " + error.getMessage());
+                });
     }
 
 }

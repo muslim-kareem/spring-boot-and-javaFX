@@ -18,7 +18,6 @@ import org.springframework.stereotype.Component;
 import java.awt.*;
 import java.net.URL;
 
-import java.util.ArrayList;
 import java.util.List;
 import java.util.ResourceBundle;
 import java.util.stream.Collectors;
@@ -34,15 +33,17 @@ public class Controller implements Initializable {
      @FXML
      private ListView<Todo> todoListView;
      @FXML
-     private Label todoLabel;
+     private Label todoLabel,inProgressLabel, doneLabel;
      @FXML
-     private Label inProgressLabel;
-     @FXML
-     private Label doneLabel;
+     private Button deleteButton;
+
     String id = null;
     @Override
     public void initialize(URL url, ResourceBundle resourceBundle) {
-        todoListView.getItems().addAll(setOpens());
+        setOpens();
+
+
+
         // Set a cell factory to display the description field of each one
         todoListView.setCellFactory(param -> new ListCell<>() {
             @Override
@@ -61,6 +62,7 @@ public class Controller implements Initializable {
             if (event.getClickCount() == 1) {
                 Todo todo = todoListView.getSelectionModel().getSelectedItem();
                id = todo.getId();
+                System.out.println(id);
             }
         });
 
@@ -104,6 +106,13 @@ public class Controller implements Initializable {
             inProgressLabel.setBackground(null);
             todoLabel.setBackground(null);
         }
-
     }
+
+
+  public void deleteTodoById(){
+      this.todoService.deleteTodoById(id);
+      todoListView.getItems().clear();
+      setOpens();
+      System.out.println("deleterTodoById excited");
+  }
 }
