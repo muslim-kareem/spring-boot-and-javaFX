@@ -24,7 +24,7 @@
             <Font size="20.0" />
          </font>
       </Label>
-      <Label fx:id="todoLabel" contentDisplay="CENTER" layoutX="160.0" layoutY="80.0" onMouseClicked="#setOpens" prefHeight="26.0" prefWidth="69.0" text="OPEN">
+      <Label fx:id="openLabel" contentDisplay="CENTER" layoutX="160.0" layoutY="80.0" onMouseClicked="#setOpens" prefHeight="26.0" prefWidth="69.0" text="OPEN">
          <font>
             <Font size="20.0" />
          </font>

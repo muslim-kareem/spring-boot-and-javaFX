@@ -1,11 +1,8 @@
 package de.fronted.frontendjavafxspringboot.todo;
 
-import javafx.event.Event;
-import javafx.event.EventHandler;
-import javafx.event.EventType;
 import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
-import javafx.scene.Parent;
+import javafx.scene.control.Button;
 import javafx.scene.control.Label;
 import javafx.scene.control.ListCell;
 import javafx.scene.control.ListView;
@@ -15,7 +12,6 @@ import javafx.scene.layout.CornerRadii;
 import javafx.scene.paint.Paint;
 import org.springframework.stereotype.Component;
 
-import java.awt.*;
 import java.net.URL;
 
 import java.util.List;
@@ -28,12 +24,10 @@ public class Controller implements Initializable {
 
     private List<Todo>  sortedTodos;
 
-
-
      @FXML
      private ListView<Todo> todoListView;
      @FXML
-     private Label todoLabel,inProgressLabel, doneLabel;
+     private Label openLabel,inProgressLabel, doneLabel;
      @FXML
      private Button deleteButton;
 
@@ -53,20 +47,17 @@ public class Controller implements Initializable {
                 }
             }
         });
-
-
         todoListView.setOnMouseClicked(event -> {
             if (event.getClickCount() == 1) {
                 Todo todo = todoListView.getSelectionModel().getSelectedItem();
                id = todo.getId();
-                System.out.println(id);
             }
         });
 
     };
 
     public List<Todo> setOpens(){
-        setSortedTodos(todoLabel,TodoStatus.OPEN);
+        setSortedTodos(openLabel,TodoStatus.OPEN);
         return sortedTodos;
     }
     public List<Todo> setDone(){
@@ -89,24 +80,46 @@ public class Controller implements Initializable {
     }
 
     private void setBackgroundColor(Label label){
-        if(todoLabel.equals(label)){
-            todoLabel.setBackground(new Background(new BackgroundFill(Paint.valueOf("#ff99dd"), CornerRadii.EMPTY, null)));
+        if(openLabel.equals(label)){
+            openLabel.setBackground(new Background(new BackgroundFill(Paint.valueOf("#ff99dd"), CornerRadii.EMPTY, null)));
             inProgressLabel.setBackground(null);
             doneLabel.setBackground(null);
         }else if (inProgressLabel.equals(label)){
             inProgressLabel.setBackground(new Background(new BackgroundFill(Paint.valueOf("#ff99dd"), CornerRadii.EMPTY, null)));
-            todoLabel.setBackground(null);
+            openLabel.setBackground(null);
             doneLabel.setBackground(null);
         }else{
             doneLabel.setBackground(new Background(new BackgroundFill(Paint.valueOf("#ff99dd"), CornerRadii.EMPTY, null)));
             inProgressLabel.setBackground(null);
-            todoLabel.setBackground(null);
+            openLabel.setBackground(null);
         }
     }
 
   public void deleteTodoById(){
-      this.todoService.deleteTodoById(id);
-      todoListView.getItems().clear();
-      setOpens();
+        if(id != null){
+            this.todoService.deleteTodoById(id);
+            // to remove the item from Frontendlist
+            sortedTodos.forEach( td -> {
+                        if(td.getId().equals(id)){
+                            if(td.getStatus().equals(TodoStatus.OPEN)){
+                                id = null;
+                                todoListView.getItems().clear();
+                                setOpens();
+                            }
+                            else if(td.getStatus().equals(TodoStatus.IN_PROGRESS)){
+                                id = null;
+                                todoListView.getItems().clear();
+                                setInProgress();
+                            }else {
+                                id = null;
+                                todoListView.getItems().clear();
+                                setDone();
+                            }
+                        }
+                    }
+            );
+      }
+
+
   }
 }
