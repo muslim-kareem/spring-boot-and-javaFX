@@ -22,16 +22,17 @@ import java.util.stream.Collectors;
 public class Controller implements Initializable {
     private final TodoService todoService = new TodoService();
 
-    private List<Todo>  sortedTodos;
+    private List<Todo> sortedTodos;
 
-     @FXML
-     private ListView<Todo> todoListView;
-     @FXML
-     private Label openLabel,inProgressLabel, doneLabel;
-     @FXML
-     private Button deleteButton;
+    @FXML
+    private ListView<Todo> todoListView;
+    @FXML
+    private Label openLabel, inProgressLabel, doneLabel;
+    @FXML
+    private Button deleteButton;
 
     String id = null;
+
     @Override
     public void initialize(URL url, ResourceBundle resourceBundle) {
         setOpens();
@@ -50,67 +51,71 @@ public class Controller implements Initializable {
         todoListView.setOnMouseClicked(event -> {
             if (event.getClickCount() == 1) {
                 Todo todo = todoListView.getSelectionModel().getSelectedItem();
-               id = todo.getId();
+                id = todo.getId();
             }
         });
 
-    };
-
-    public List<Todo> setOpens(){
-        setSortedTodos(openLabel,TodoStatus.OPEN);
-        return sortedTodos;
     }
-    public List<Todo> setDone(){
-        setSortedTodos(doneLabel,TodoStatus.DONE);
-        return sortedTodos;
-    }  public List<Todo> setInProgress(){
-         setSortedTodos(inProgressLabel,TodoStatus.IN_PROGRESS);
+
+    ;
+
+    public List<Todo> setOpens() {
+        setSortedTodos(openLabel, TodoStatus.OPEN);
         return sortedTodos;
     }
 
-    public void setSortedTodos(Label statusLabel, TodoStatus status){
+    public List<Todo> setDone() {
+        setSortedTodos(doneLabel, TodoStatus.DONE);
+        return sortedTodos;
+    }
+
+    public List<Todo> setInProgress() {
+        setSortedTodos(inProgressLabel, TodoStatus.IN_PROGRESS);
+        return sortedTodos;
+    }
+
+    public void setSortedTodos(Label statusLabel, TodoStatus status) {
         setBackgroundColor(statusLabel);
-        sortedTodos = todoService.getTodos().stream().filter( todo -> todo.getStatus().equals(status)).collect(Collectors.toList());
+        sortedTodos = todoService.getTodos().stream().filter(todo -> todo.getStatus().equals(status)).collect(Collectors.toList());
         setTodosOnClick();
     }
 
-    private void setTodosOnClick(){
+    private void setTodosOnClick() {
         todoListView.getItems().clear();
         todoListView.getItems().addAll(sortedTodos);
     }
 
-    private void setBackgroundColor(Label label){
-        if(openLabel.equals(label)){
+    private void setBackgroundColor(Label label) {
+        if (openLabel.equals(label)) {
             openLabel.setBackground(new Background(new BackgroundFill(Paint.valueOf("#ff99dd"), CornerRadii.EMPTY, null)));
             inProgressLabel.setBackground(null);
             doneLabel.setBackground(null);
-        }else if (inProgressLabel.equals(label)){
+        } else if (inProgressLabel.equals(label)) {
             inProgressLabel.setBackground(new Background(new BackgroundFill(Paint.valueOf("#ff99dd"), CornerRadii.EMPTY, null)));
             openLabel.setBackground(null);
             doneLabel.setBackground(null);
-        }else{
+        } else {
             doneLabel.setBackground(new Background(new BackgroundFill(Paint.valueOf("#ff99dd"), CornerRadii.EMPTY, null)));
             inProgressLabel.setBackground(null);
             openLabel.setBackground(null);
         }
     }
 
-  public void deleteTodoById(){
-        if(id != null){
+    public void deleteTodoById() {
+        if (id != null) {
             this.todoService.deleteTodoById(id);
             // to remove the item from Frontendlist
-            sortedTodos.forEach( td -> {
-                        if(td.getId().equals(id)){
-                            if(td.getStatus().equals(TodoStatus.OPEN)){
+            sortedTodos.forEach(td -> {
+                        if (td.getId().equals(id)) {
+                            if (td.getStatus().equals(TodoStatus.OPEN)) {
                                 id = null;
                                 todoListView.getItems().clear();
                                 setOpens();
-                            }
-                            else if(td.getStatus().equals(TodoStatus.IN_PROGRESS)){
+                            } else if (td.getStatus().equals(TodoStatus.IN_PROGRESS)) {
                                 id = null;
                                 todoListView.getItems().clear();
                                 setInProgress();
-                            }else {
+                            } else {
                                 id = null;
                                 todoListView.getItems().clear();
                                 setDone();
@@ -118,8 +123,8 @@ public class Controller implements Initializable {
                         }
                     }
             );
-      }
+        }
 
 
-  }
+    }
 }
