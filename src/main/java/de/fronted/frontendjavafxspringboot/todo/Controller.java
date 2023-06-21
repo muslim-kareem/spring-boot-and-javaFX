@@ -79,16 +79,14 @@ public class Controller implements Initializable {
     }
 
     private void setBackgroundColor(Label label) {
+        label.setBackground(new Background(new BackgroundFill(Paint.valueOf("#ff99dd"), CornerRadii.EMPTY, null)));
         if (openLabel.equals(label)) {
-            openLabel.setBackground(new Background(new BackgroundFill(Paint.valueOf("#ff99dd"), CornerRadii.EMPTY, null)));
             inProgressLabel.setBackground(null);
             doneLabel.setBackground(null);
         } else if (inProgressLabel.equals(label)) {
-            inProgressLabel.setBackground(new Background(new BackgroundFill(Paint.valueOf("#ff99dd"), CornerRadii.EMPTY, null)));
             openLabel.setBackground(null);
             doneLabel.setBackground(null);
         } else {
-            doneLabel.setBackground(new Background(new BackgroundFill(Paint.valueOf("#ff99dd"), CornerRadii.EMPTY, null)));
             inProgressLabel.setBackground(null);
             openLabel.setBackground(null);
         }
@@ -98,18 +96,21 @@ public class Controller implements Initializable {
         Alert alert = new Alert(Alert.AlertType.CONFIRMATION);
         var selectionModel = todoListView.getSelectionModel();
         Todo selectedTodo = selectionModel.getSelectedItem();
-
         if (selectedTodo != null) {
-            alert.setTitle("Delete");
+            alert.setTitle("DELETE");
             alert.setHeaderText("You're about to delete this task!");
-            alert.setContentText("Do you want to delete ?: ");
+            alert.setContentText("Do you want to delete? ");
             if (alert.showAndWait().get() == ButtonType.OK) {
                 this.todoService.deleteTodoById(selectedTodo.getId());
             }
             setSortedTodos(selectedStatus);
+        }else{
+            alert.setTitle("SELECT");
+            alert.setHeaderText("Please select Item before trying to delete!");
+            alert.showAndWait();
         }
-
     }
+
 
 
 }
