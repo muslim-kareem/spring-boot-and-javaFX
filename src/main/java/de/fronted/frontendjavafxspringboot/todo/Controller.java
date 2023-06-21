@@ -89,14 +89,12 @@ public class Controller implements Initializable {
     }
 
     public void deleteTodoById() {
-        var selectionModel = todoListView.getSelectionModel();
-        if (selectionModel != null) {
-            Todo selectedTodo = selectionModel.getSelectedItem();
-            if(selectedTodo.getId() != null){
-                this.todoService.deleteTodoById(selectedTodo.getId());
-            }
-            // to remove the item from Frontendlist
-            setSortedTodos(selectedStatus);
+       var selectionModel = todoListView.getSelectionModel();
+        Todo selectedTodo = selectionModel.getSelectedItem();
+        if(selectedTodo != null){
+            this.todoService.deleteTodoById(selectedTodo.getId());
         }
+        // to remove the item from Frontendlist
+        setSortedTodos(selectedStatus);
     }
 }
