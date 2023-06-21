@@ -28,11 +28,12 @@ public class Controller implements Initializable {
     @FXML
     private Label openLabel, inProgressLabel, doneLabel;
     @FXML
-    private Button deleteButton;
-
+    private Button deleteButton, saveButton;
     @FXML
-    private AnchorPane scenePane;
+    private TextField inputField;
+
     private Stage stage;
+
 
     @Override
     public void initialize(URL url, ResourceBundle resourceBundle) {
@@ -70,7 +71,8 @@ public class Controller implements Initializable {
     }
 
     public void setSortedTodos(TodoStatus status) {
-        setTodosOnClick(todoService.getTodos().stream().filter(todo -> todo.getStatus().equals(status)).collect(Collectors.toList()));
+        List<Todo> theSorted = todoService.getTodos().stream().filter(todo -> todo.getStatus().equals(status)).collect(Collectors.toList());
+        setTodosOnClick(theSorted);
     }
 
     private void setTodosOnClick(List<Todo> todos) {
@@ -111,6 +113,14 @@ public class Controller implements Initializable {
         }
     }
 
+    public void saveTodo() {
+        String description = inputField.getText();
+        if(!description.isBlank()){
+            this.todoService.createTodo(new Todo(null,description,TodoStatus.OPEN));
+            setOpens();
+            inputField.clear();;
+        }
 
+    }
 
 }

@@ -29,4 +29,13 @@ public class TodoService {
                 });
     }
 
+
+    public void createTodo(Todo theTodo) {
+         Objects.requireNonNull(webClient.post()
+                 .bodyValue(theTodo)
+                 .retrieve()
+                 .toEntityList(Todo.class)
+                 .block());
+    }
+
 }
