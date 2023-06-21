@@ -3,10 +3,12 @@ package de.fronted.frontendjavafxspringboot.todo;
 import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
 import javafx.scene.control.*;
+import javafx.scene.layout.AnchorPane;
 import javafx.scene.layout.Background;
 import javafx.scene.layout.BackgroundFill;
 import javafx.scene.layout.CornerRadii;
 import javafx.scene.paint.Paint;
+import javafx.stage.Stage;
 import org.springframework.stereotype.Component;
 
 import java.net.URL;
@@ -27,6 +29,10 @@ public class Controller implements Initializable {
     private Label openLabel, inProgressLabel, doneLabel;
     @FXML
     private Button deleteButton;
+
+    @FXML
+    private AnchorPane scenePane;
+    private Stage stage;
 
     @Override
     public void initialize(URL url, ResourceBundle resourceBundle) {
@@ -89,12 +95,21 @@ public class Controller implements Initializable {
     }
 
     public void deleteTodoById() {
-       var selectionModel = todoListView.getSelectionModel();
+        Alert alert = new Alert(Alert.AlertType.CONFIRMATION);
+        var selectionModel = todoListView.getSelectionModel();
         Todo selectedTodo = selectionModel.getSelectedItem();
-        if(selectedTodo != null){
-            this.todoService.deleteTodoById(selectedTodo.getId());
+
+        if (selectedTodo != null) {
+            alert.setTitle("Delete");
+            alert.setHeaderText("You're about to delete this task!");
+            alert.setContentText("Do you want to delete ?: ");
+            if (alert.showAndWait().get() == ButtonType.OK) {
+                this.todoService.deleteTodoById(selectedTodo.getId());
+            }
+            setSortedTodos(selectedStatus);
         }
-        // to remove the item from Frontendlist
-        setSortedTodos(selectedStatus);
+
     }
+
+
 }

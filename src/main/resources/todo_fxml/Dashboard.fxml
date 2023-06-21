@@ -6,7 +6,7 @@
 <?import javafx.scene.layout.AnchorPane?>
 <?import javafx.scene.text.Font?>
 
-<AnchorPane prefHeight="400.0" prefWidth="600.0" style="-fx-background-color: wight;" xmlns="http://javafx.com/javafx/19" xmlns:fx="http://javafx.com/fxml/1" fx:controller="de.fronted.frontendjavafxspringboot.todo.Controller">
+<AnchorPane fx:id="scenePane" prefHeight="400.0" prefWidth="600.0" style="-fx-background-color: wight;" xmlns="http://javafx.com/javafx/19" xmlns:fx="http://javafx.com/fxml/1" fx:controller="de.fronted.frontendjavafxspringboot.todo.Controller">
    <children>
       <ListView fx:id="todoListView" layoutX="-2.0" layoutY="120.0" prefHeight="219.0" prefWidth="616.0" />
       <Label alignment="CENTER" layoutX="14.0" layoutY="14.0" prefHeight="55.0" prefWidth="602.0" text="My Todo app">
