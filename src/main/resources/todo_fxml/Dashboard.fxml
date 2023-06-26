@@ -7,10 +7,10 @@
 <?import javafx.scene.layout.AnchorPane?>
 <?import javafx.scene.text.Font?>
 
-<AnchorPane fx:id="scenePane" prefHeight="400.0" prefWidth="600.0" style="-fx-background-color: wight;" xmlns="http://javafx.com/javafx/19" xmlns:fx="http://javafx.com/fxml/1" fx:controller="de.fronted.frontendjavafxspringboot.todo.Controller">
+<AnchorPane fx:id="scenePane" prefHeight="400.0" prefWidth="600.0" style="-fx-background-color: wight;" xmlns="http://javafx.com/javafx/19" xmlns:fx="http://javafx.com/fxml/1" fx:controller="de.fronted.frontendjavafxspringboot.controller.DashboardController">
    <children>
-      <ListView fx:id="todoListView" layoutX="-2.0" layoutY="120.0" prefHeight="219.0" prefWidth="616.0" />
-      <Label alignment="CENTER" layoutX="14.0" layoutY="14.0" prefHeight="55.0" prefWidth="602.0" text="My Todo app">
+      <ListView fx:id="todoListView" layoutY="120.0" prefHeight="180.0" prefWidth="616.0" />
+      <Label fx:id="titleLabel" layoutX="249.0" layoutY="14.0" prefHeight="55.0" prefWidth="367.0" text="ToDO">
          <font>
             <Font size="35.0" />
          </font>
@@ -30,8 +30,14 @@
             <Font size="20.0" />
          </font>
       </Label>
-      <Button fx:id="deleteTodoButton" focusTraversable="false" layoutX="535.0" layoutY="360.0" mnemonicParsing="false" onAction="#deleteTodoById" prefHeight="0.0" prefWidth="55.0" style="-fx-background-color: red;" text="Delete" textFill="WHITE" />
-      <TextField fx:id="inputField" layoutX="14.0" layoutY="360.0" prefHeight="26.0" prefWidth="301.0" />
-      <Button fx:id="saveButton" focusTraversable="false" layoutX="328.0" layoutY="360.0" mnemonicParsing="false" onAction="#saveTodo" prefHeight="26.0" prefWidth="62.0" style="-fx-background-color: blue;" text="Save" textFill="WHITE" />
+      <Button fx:id="deleteTodoButton" focusTraversable="false" layoutX="536.0" layoutY="360.0" mnemonicParsing="false" onAction="#deleteTodoById" prefHeight="0.0" prefWidth="55.0" style="-fx-background-color: red;" text="Delete" textFill="WHITE" />
+      <TextField fx:id="inputField" layoutX="25.0" layoutY="360.0" prefHeight="26.0" prefWidth="301.0" />
+      <Button fx:id="saveButton" focusTraversable="false" layoutX="360.0" layoutY="360.0" mnemonicParsing="false" onAction="#saveTodo" prefHeight="26.0" prefWidth="62.0" style="-fx-background-color: blue;" text="Save" textFill="WHITE" />
+      <Button fx:id="updateButton" focusTraversable="false" layoutX="450.0" layoutY="360.0" mnemonicParsing="false" onAction="#switchToDetailsController" prefHeight="26.0" prefWidth="62.0" style="-fx-background-color: #abc2cc;" text="Update" textFill="WHITE" />
+      <Label fx:id="selectedLabel" layoutX="24.0" layoutY="308.0" prefHeight="44.0" prefWidth="591.0" text=" No Selected Item !" textFill="#e51010">
+         <font>
+            <Font size="15.0" />
+         </font>
+      </Label>
    </children>
 </AnchorPane>

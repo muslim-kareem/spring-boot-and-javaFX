@@ -1,16 +1,24 @@
-package de.fronted.frontendjavafxspringboot.todo;
+package de.fronted.frontendjavafxspringboot.controller;
 
+import de.fronted.frontendjavafxspringboot.todo.Todo;
+import de.fronted.frontendjavafxspringboot.todo.TodoService;
+import de.fronted.frontendjavafxspringboot.todo.TodoStatus;
+import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
+import javafx.fxml.FXMLLoader;
 import javafx.fxml.Initializable;
+import javafx.scene.Node;
+import javafx.scene.Scene;
 import javafx.scene.control.*;
-import javafx.scene.layout.AnchorPane;
 import javafx.scene.layout.Background;
 import javafx.scene.layout.BackgroundFill;
 import javafx.scene.layout.CornerRadii;
+import javafx.scene.paint.Color;
 import javafx.scene.paint.Paint;
 import javafx.stage.Stage;
 import org.springframework.stereotype.Component;
 
+import java.io.IOException;
 import java.net.URL;
 
 import java.util.List;
@@ -18,21 +26,28 @@ import java.util.ResourceBundle;
 import java.util.stream.Collectors;
 
 @Component
-public class Controller implements Initializable {
+public class DashboardController implements Initializable {
     private final TodoService todoService = new TodoService();
 
     private TodoStatus selectedStatus = TodoStatus.OPEN;
+
+
+    // In Progress
+    private Scene scene;
+    private Stage stage;
+    private FXMLLoader root;
 
     @FXML
     private ListView<Todo> todoListView;
     @FXML
     private Label openLabel, inProgressLabel, doneLabel;
     @FXML
-    private Button deleteButton, saveButton;
+    private Button deleteButton, saveButton, updateButton;
     @FXML
     private TextField inputField;
 
-    private Stage stage;
+    @FXML
+    private Label selectedLabel;
 
 
     @Override
@@ -50,6 +65,19 @@ public class Controller implements Initializable {
                 }
             }
         });
+
+        // just to show the selected Todo in the selectedLabel
+        todoListView.setOnMouseClicked(event -> {
+            if (event.getClickCount() == 1) { // Double-click
+                Todo selectedItem = todoListView.getSelectionModel().getSelectedItem();
+                if (selectedItem != null) {
+                    // Handle the double-click action here
+                    selectedLabel.setTextFill(Color.BLUEVIOLET);
+                    selectedLabel.setText("Selected Todo:   " + selectedItem.getDescription());
+                }
+            }
+        });
+
     }
 
     public void setOpens() {
@@ -106,8 +134,9 @@ public class Controller implements Initializable {
                 this.todoService.deleteTodoById(selectedTodo.getId());
             }
             setSortedTodos(selectedStatus);
-        }else{
-            alert.setTitle("SELECT");
+        } else {
+            alert.setAlertType(Alert.AlertType.INFORMATION);
+            alert.setTitle("SELECTION");
             alert.setHeaderText("Please select Item before trying to delete!");
             alert.showAndWait();
         }
@@ -115,10 +144,33 @@ public class Controller implements Initializable {
 
     public void saveTodo() {
         String description = inputField.getText();
-        if(!description.isBlank()){
-            this.todoService.createTodo(new Todo(null,description,TodoStatus.OPEN));
+        if (!description.isBlank()) {
+            this.todoService.createTodo(new Todo(null, description, TodoStatus.OPEN));
             setOpens();
-            inputField.clear();;
+            inputField.clear();
+            ;
+        }
+
+
+    }
+
+    public void switchToDetailsController(ActionEvent e) throws IOException {
+        var selectionModel = todoListView.getSelectionModel();
+        Todo selectedTodo = selectionModel.getSelectedItem();
+
+        if (selectedTodo != null) {
+            DetailsController.id = selectedTodo.getId();
+            root = new FXMLLoader(getClass().getResource("/todo_fxml/TodoDetails.fxml"));
+            // get the actual stage from ActionEvent
+            stage = (Stage) ((Node) e.getSource()).getScene().getWindow();
+            scene = new Scene(root.load());
+            stage.setScene(scene);
+            stage.show();
+        } else {
+            Alert alert = new Alert(Alert.AlertType.INFORMATION);
+            alert.setTitle("SELECTION");
+            alert.setHeaderText("Please select Item before trying to update!");
+            alert.showAndWait();
         }
 
     }

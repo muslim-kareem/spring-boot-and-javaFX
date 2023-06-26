@@ -38,4 +38,20 @@ public class TodoService {
                  .block());
     }
 
+    public void updateTodo(Todo theTodo) {
+         Objects.requireNonNull(webClient.put()
+                         .uri("/"+theTodo.getId())
+                 .bodyValue(theTodo)
+                 .retrieve()
+                 .toEntityList(Todo.class)
+                 .block());
+    }
+
+    public Todo getTodoById(String id) {
+        return Objects.requireNonNull(webClient.get()
+                        .uri("/"+id)
+                .retrieve()
+                .toEntity(Todo.class)
+                .block()).getBody();
+    }
 }
