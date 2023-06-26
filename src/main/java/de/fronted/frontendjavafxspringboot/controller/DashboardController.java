@@ -32,7 +32,6 @@ public class DashboardController implements Initializable {
     private TodoStatus selectedStatus = TodoStatus.OPEN;
 
 
-    // In Progress
     private Scene scene;
     private Stage stage;
     private FXMLLoader root;
