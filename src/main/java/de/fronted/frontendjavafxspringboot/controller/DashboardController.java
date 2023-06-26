@@ -131,6 +131,8 @@ public class DashboardController implements Initializable {
             alert.setContentText("Do you want to delete? ");
             if (alert.showAndWait().get() == ButtonType.OK) {
                 this.todoService.deleteTodoById(selectedTodo.getId());
+                selectedLabel.setText("No selected Item! ");
+                selectedLabel.setTextFill(Color.RED);
             }
             setSortedTodos(selectedStatus);
         } else {
