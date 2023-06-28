@@ -47,9 +47,7 @@ public class DetailsController implements Initializable {
     }
 
     public void saveTodo(ActionEvent e) throws IOException {
-        System.out.println("saveTodo");
         this.todoService.updateTodo(todoToUpdate);
-
         FXMLLoader root = new FXMLLoader(getClass().getResource("/todo_fxml/Dashboard.fxml"));
         // get the actual stage from ActionEvent
         Stage stage = (Stage) ((Node) e.getSource()).getScene().getWindow();
@@ -63,9 +61,5 @@ public class DetailsController implements Initializable {
         todoToUpdate.setStatusAsString(selectedMenuItem.getText());
         statusButton.setText(selectedMenuItem.getText());
     }
-
-
-
-
 
 }

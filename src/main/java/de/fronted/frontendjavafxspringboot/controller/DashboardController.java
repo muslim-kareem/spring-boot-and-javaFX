@@ -70,7 +70,6 @@ public class DashboardController implements Initializable {
             if (event.getClickCount() == 1) { // Double-click
                 Todo selectedItem = todoListView.getSelectionModel().getSelectedItem();
                 if (selectedItem != null) {
-                    // Handle the double-click action here
                     selectedLabel.setTextFill(Color.BLUEVIOLET);
                     selectedLabel.setText("Selected Todo:   " + selectedItem.getDescription());
                 }
@@ -151,8 +150,6 @@ public class DashboardController implements Initializable {
             inputField.clear();
             ;
         }
-
-
     }
 
     public void switchToDetailsController(ActionEvent e) throws IOException {
